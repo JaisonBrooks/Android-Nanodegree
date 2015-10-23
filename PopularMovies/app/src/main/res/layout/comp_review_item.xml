@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/review_base"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:padding="16dp"
+        android:src="@drawable/ic_rate_review_black_24dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="This is a movie Title, asdf;lkajsdf;laksjdf;lakjsdf;lkajsdf;lkj asd;flkjasdf \n a;sdlfkjas;dlfkjasd;flkj"
+            android:maxLines="2"
+            android:ellipsize="end" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            tools:text="- Bob Jones"
+            android:id="@+id/author"
+            android:textSize="16sp"
+            android:textStyle="bold|italic"
+            android:layout_gravity="right"
+            android:gravity="right" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

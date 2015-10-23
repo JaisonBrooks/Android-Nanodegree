@@ -1,0 +1,46 @@
+<resources>
+
+    <style name="App.Theme" parent="Base.Theme">
+    </style>
+
+    <style name="Base.Theme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primaryDark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:windowBackground">@color/window_background</item>
+    </style>
+
+    <style name="MovieTitle" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">@color/white_grey</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lines">@integer/movie_title_lines</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="MovieOverview" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="Widget.CardContent" parent="android:Widget">
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingTop">24dp</item>
+        <item name="android:paddingBottom">24dp</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="Widget.CardContent.Horizontal" parent="android:Widget">
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingTop">24dp</item>
+        <item name="android:paddingBottom">24dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="CollapsingToolbarText"  parent="TextAppearance.AppCompat.Large">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">28sp</item>
+    </style>
+
+</resources>
