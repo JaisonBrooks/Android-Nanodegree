@@ -5,32 +5,54 @@
         android:name="android.permission.INTERNET"
         android:maxSdkVersion="23" />
 
-    <application android:allowBackup="true" android:label="@string/app_name"
-        android:icon="@mipmap/ic_launcher" android:theme="@style/AppTheme">
+    <application
+        android:name=".FootballScoresApplication"
+        android:allowBackup="true"
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/FootballTheme">
 
         <activity android:name=".MainActivity"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <provider
-            android:name=".ScoresProvider"
-            android:authorities="barqsoft.footballscores" />
-
         <activity
             android:name=".AboutActivity"
-            android:label="About"
-            android:parentActivityName=".MainActivity" >
+            android:label="@string/title_about"
+            android:parentActivityName=".MainActivity" />
+
+        <provider
+            android:name=".providers.ScoresProvider"
+            android:authorities="com.jaisonbrooks.football_scores.footballscores"
+            android:exported="false" />
+
+        <service android:name=".services.FetchService" />
+
+        <receiver
+            android:name=".widget.ScoresWidgetProvider"
+            android:enabled="true"
+            android:label="@string/title_widget_scores">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.jaisonbrooks.football_scores.footballscores.BROADCAST_DATA_UPDATED" />
+            </intent-filter>
+
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="barqsoft.footballscores.MainActivity" />
-        </activity>
-        <service android:name=".service.myFetchService" />
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_scores" />
+        </receiver>
+
+        <service
+            android:name=".widget.ScoresWidgetRemoteViewsService"
+            android:enabled="true"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
     </application>
 

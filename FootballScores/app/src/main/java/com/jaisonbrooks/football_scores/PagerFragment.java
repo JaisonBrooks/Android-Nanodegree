@@ -1,96 +1,97 @@
 package com.jaisonbrooks.football_scores;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewPager;
-import android.text.format.Time;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.jaisonbrooks.football_scores.adapters.PagerAdapter;
+import com.jaisonbrooks.football_scores.utils.OnTabSelectedListener;
 
-/**
- * Created by yehya khaled on 2/27/2015.
- */
-public class PagerFragment extends Fragment
-{
-    public static final int NUM_PAGES = 5;
-    public ViewPager mPagerHandler;
+import butterknife.Bind;
+
+public final class PagerFragment extends BaseFragment
+        implements AppBarLayout.OnOffsetChangedListener {
+    private static final String STATE_CURRENT_PAGE = "state_current_page";
+
+    @Bind(R.id.pager) ViewPager mViewPager;
+    @Bind(R.id.app_bar) AppBarLayout mAppBarLayout;
+    @Bind(R.id.tab_layout) TabLayout mTabLayout;
+
     private PagerAdapter mPagerAdapter;
-    private MainScreenFragment[] viewFragments = new MainScreenFragment[5];
+    private int mCurrentPage = PagerAdapter.POSITION_TODAY;
+    private int mAppBarOffset = 0;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
-        View rootView = inflater.inflate(R.layout.pager_fragment, container, false);
-        mPagerHandler = (ViewPager) rootView.findViewById(R.id.pager);
-        mPagerAdapter = new PagerAdapter(getChildFragmentManager());
-        for (int i = 0;i < NUM_PAGES;i++)
-        {
-            Date fragmentdate = new Date(System.currentTimeMillis()+((i-2)*86400000));
-            SimpleDateFormat mformat = new SimpleDateFormat("yyyy-MM-dd");
-            viewFragments[i] = new MainScreenFragment();
-            viewFragments[i].setFragmentDate(mformat.format(fragmentdate));
-        }
-        mPagerHandler.setAdapter(mPagerAdapter);
-        mPagerHandler.setCurrentItem(MainActivity.currentFragment);
-        return rootView;
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_pager, container, false);
     }
 
-    private class PagerAdapter extends FragmentStatePagerAdapter
-    {
-        @Override
-        public Fragment getItem(int i)
-        {
-            return viewFragments[i];
-        }
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        @Override
-        public int getCount()
-        {
-            return NUM_PAGES;
-        }
+        if (savedInstanceState != null && savedInstanceState.containsKey(STATE_CURRENT_PAGE))
+            mCurrentPage = savedInstanceState.getInt(STATE_CURRENT_PAGE);
 
-        public PagerAdapter(FragmentManager fm)
-        {
-            super(fm);
-        }
-        // Returns the page title for the top indicator
-        @Override
-        public CharSequence getPageTitle(int position)
-        {
-            return getDayName(getActivity(),System.currentTimeMillis()+((position-2)*86400000));
-        }
-        public String getDayName(Context context, long dateInMillis) {
-            // If the date is today, return the localized version of "Today" instead of the actual
-            // day name.
+        mPagerAdapter = new PagerAdapter(getActivity(), getChildFragmentManager());
 
-            Time t = new Time();
-            t.setToNow();
-            int julianDay = Time.getJulianDay(dateInMillis, t.gmtoff);
-            int currentJulianDay = Time.getJulianDay(System.currentTimeMillis(), t.gmtoff);
-            if (julianDay == currentJulianDay) {
-                return context.getString(R.string.today);
-            } else if ( julianDay == currentJulianDay +1 ) {
-                return context.getString(R.string.tomorrow);
+        mTabLayout.setTabsFromPagerAdapter(mPagerAdapter);
+        mTabLayout.setOnTabSelectedListener(new OnTabSelectedListener() {
+            @Override public void onTabSelected(TabLayout.Tab tab) {
+                mViewPager.setCurrentItem(tab.getPosition());
             }
-             else if ( julianDay == currentJulianDay -1)
-            {
-                return context.getString(R.string.yesterday);
-            }
-            else
-            {
-                Time time = new Time();
-                time.setToNow();
-                // Otherwise, the format is just the day of the week (e.g "Wednesday".
-                SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE");
-                return dayFormat.format(dateInMillis);
-            }
+        });
+
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
+        mViewPager.setOffscreenPageLimit(PagerAdapter.PAGE_SIZE);
+        mViewPager.setAdapter(mPagerAdapter);
+        mViewPager.setCurrentItem(mCurrentPage);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAppBarLayout.addOnOffsetChangedListener(this);
+    }
+
+    @Override
+    public void onStop() {
+        mAppBarLayout.removeOnOffsetChangedListener(this);
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        mPagerAdapter.onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int offset) {
+        mAppBarOffset = offset;
+    }
+
+    //TODO: Decide what to do with this. With ScoreFragment#canSwipeRefreshChildScrollUp there is no need in this method
+    public void dispatchTouchEvent(MotionEvent ev) {
+        final int action = MotionEventCompat.getActionMasked(ev);
+        switch (action) {
+            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                ScoresFragment pageFragment = mPagerAdapter.getFragment(mViewPager.getCurrentItem());
+                if (pageFragment != null) {
+                    //Log.d("PagerFragment", "counter=" + (counter++));
+                    pageFragment.setSwipeToRefreshEnabled(mAppBarOffset == 0);
+                }
+                break;
         }
     }
 }

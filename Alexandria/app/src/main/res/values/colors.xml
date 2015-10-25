@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="transparent">#00000000</color>
+
+    <color name="body_text_1">#de000000</color>
+    <color name="body_text_2">#8a000000</color>
+    <color name="body_text_3">#60000000</color>
+    <color name="body_text_white">#FFFFFFFF</color>
+    <color name="body_text_disabled">#44000000</color>
+
+    <color name="body_text_1_inverse">#deffffff</color>
+    <color name="body_text_2_inverse">#8affffff</color>
+
+    <color name="window_background">#e9eaed</color>
+    <color name="gray_background">#e4e4e4</color>
+
+    <color name="primary">@color/material_cyan700</color>
+    <color name="primary_dark">@color/material_cyan800</color>
+    <color name="primary_light">@color/material_cyan200</color>
+    <color name="accent">@color/material_purple800</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#727272</color>
+
+    <array name="swipe_progress_colors">
+        <item>@color/accent</item>
+        <item>@color/primary</item>
+    </array>
+
+    <color name="book_cover_placeholder">@color/material_redA200</color>
+
+    <!-- Camera -->
+    <color name="result_view">#b0000000</color>
+    <color name="result_points">#c099cc00</color>
+    <color name="viewfinder_laser">#ffcc0000</color>
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="possible_result_points">#c0ffbd21</color>
+    <color name="status_text">#ffffffff</color>
+
+</resources>
