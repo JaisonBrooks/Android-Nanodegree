@@ -62,5 +62,6 @@
     <string name="title_widget_scores">Today\'s Scores</string>
     <string name="date_format_ymd">yyyy-MM-dd</string>
     <string name="api_key">b705fc1d627c460c837b1f74483eb371</string>
+    <string name="share_button_description">Share this score</string>
 
 </resources>

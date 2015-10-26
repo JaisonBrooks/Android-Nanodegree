@@ -21,9 +21,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/element_spacing_normal"
-        android:drawableLeft="@drawable/ic_directions_run_black_18dp"
+        android:drawableLeft="@drawable/ic_soccer_dude"
         android:drawablePadding="@dimen/keyline_1_minus_8dp"
-        android:drawableStart="@drawable/ic_directions_run_black_18dp"
+        android:drawableStart="@drawable/ic_soccer_dude"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/secondary_text"
         tools:text="Match day: 2" />

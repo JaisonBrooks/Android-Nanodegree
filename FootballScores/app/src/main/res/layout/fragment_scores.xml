@@ -25,6 +25,7 @@
             android:paddingBottom="?attr/actionBarSize"
             app:messageImage="@drawable/ic_no_soccer"
             app:messageText="@string/scores_empty_message"
+            android:contentDescription="@string/scores_empty_message"
             tools:alpha="1" />
 
     </FrameLayout>
